@@ -19,9 +19,9 @@ const LogIn = () => {
       { withCredentials: true }
     )
     .then((response) => {
-      console.log(response.data);
+      console.log(response);
     }).catch((error) => {
-      console.log("Error Message: " + error.response?.data?.statusCode);
+      console.log("Error Message: " + error);
     });
   }, [email, password]);
 
