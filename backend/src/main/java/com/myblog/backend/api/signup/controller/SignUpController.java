@@ -22,7 +22,9 @@ public class SignUpController {
 
 	@PostMapping("/signup")
 	public ResponseEntity<String> signUp(@RequestBody SignUpRequestDto signUpRequestDto) {
-		memberService.memberSignUp(signUpRequestDto);
+		log.info("signUpRequestDto: {}", signUpRequestDto.toString());
+		memberService.validateDuplicateMember(signUpRequestDto);
+		memberService.createMember(signUpRequestDto);
 		return ResponseEntity.ok("Ok");
 	}
 }
