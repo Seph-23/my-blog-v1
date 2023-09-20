@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import com.myblog.backend.global.error.exception.BusinessException;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -63,5 +65,15 @@ public class GlobalExceptionHandler {
 		log.error("Exception", e);
 		ErrorResponse errorResponse = ErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR.toString(), e.getMessage());
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+	}
+
+	/**
+	 * 비즈니스 로직 실행 중 오류 발생
+	 */
+	@ExceptionHandler(value = { BusinessException.class })
+	protected ResponseEntity<ErrorResponse> handleConflict(BusinessException e) {
+		log.error("BusinessException", e);
+		ErrorResponse errorResponse = ErrorResponse.of(e.getErrorCode().getErrorCode(), e.getMessage());
+		return ResponseEntity.status(e.getErrorCode().getHttpStatus()).body(errorResponse);
 	}
 }
