@@ -1,11 +1,10 @@
 package com.myblog.backend.global.config.web;
 
-import java.util.Arrays;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -24,9 +23,15 @@ public class SecurityConfig {
 			.cors().configurationSource(corsConfigurationSource())
 			.and()
 			.csrf().disable()
-			.authorizeHttpRequests()
-			.antMatchers("/api/**").permitAll()
-			.anyRequest().authenticated();
+			.formLogin().disable()
+			.authorizeRequests()
+			.antMatchers("/**").permitAll()
+			.anyRequest().authenticated()
+			.and()
+			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			.and()
+			.headers()
+			.frameOptions().sameOrigin();
 		return http.build();
 	}
 
@@ -34,9 +39,10 @@ public class SecurityConfig {
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
 		UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
-		corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "https://localhost:3000"));
-		corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-		urlBasedCorsConfigurationSource.registerCorsConfiguration("/api/**", corsConfiguration);
+		corsConfiguration.addAllowedOrigin("*");
+		corsConfiguration.addAllowedMethod("*");
+		corsConfiguration.addAllowedHeader("*");
+		urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
 		return urlBasedCorsConfigurationSource;
 	}
 
