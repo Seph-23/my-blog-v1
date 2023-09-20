@@ -34,6 +34,7 @@ public class Member extends BaseTimeEntity {
 	private String email;
 
 	private String password;
+	private String salt;
 
 	@Column(length = 20)
 	private String nickname;
@@ -51,11 +52,12 @@ public class Member extends BaseTimeEntity {
 	private LocalDateTime tokenExpirationTime;
 
 	@Builder
-	public Member(Long memberId, String email, String password, String nickname, Role role, MemberType memberType,
+	public Member(Long memberId, String email, String password, String salt, String nickname, Role role, MemberType memberType,
 		String refreshToken, LocalDateTime tokenExpirationTime) {
 		this.memberId = memberId;
 		this.email = email;
 		this.password = password;
+		this.salt = salt;
 		this.nickname = nickname;
 		this.role = role;
 		this.memberType = memberType;
