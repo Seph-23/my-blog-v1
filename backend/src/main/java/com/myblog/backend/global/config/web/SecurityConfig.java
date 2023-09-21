@@ -16,6 +16,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 public class SecurityConfig {
 
+	/**
+	 *	Spring Security Configuration
+	 */
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
@@ -35,13 +38,19 @@ public class SecurityConfig {
 		return http.build();
 	}
 
+	/**
+	 *	Cors Configuration for Spring Security
+	 *	corsConfiguration.addAllowedOrigin("*")과 corsConfiguration.setAllowCredentials(true)는 동시에 사용할 수 없다.
+	 *  그래서 corsConfiguration.addAllowedOriginPattern("*")을 사용한다.
+	 */
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
 		UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
-		corsConfiguration.addAllowedOrigin("*");
 		corsConfiguration.addAllowedMethod("*");
 		corsConfiguration.addAllowedHeader("*");
+		corsConfiguration.addAllowedOriginPattern("*");
+		corsConfiguration.setAllowCredentials(true);
 		urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
 		return urlBasedCorsConfigurationSource;
 	}

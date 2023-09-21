@@ -2,6 +2,8 @@ package com.myblog.backend.api.signup.controller;
 
 import java.net.URI;
 
+import javax.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +25,7 @@ public class SignUpController {
 	private final MemberService memberService;
 
 	@PostMapping("/signup")
-	public ResponseEntity<String> signUp(@RequestBody SignUpRequestDto signUpRequestDto) {
+	public ResponseEntity<String> signUp(@Valid @RequestBody SignUpRequestDto signUpRequestDto) {
 		log.info("signUpRequestDto: {}", signUpRequestDto.toString());
 		memberService.validateDuplicateMember(signUpRequestDto);
 		Long memberId = memberService.createMember(signUpRequestDto);

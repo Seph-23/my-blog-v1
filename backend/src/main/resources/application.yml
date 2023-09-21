@@ -33,5 +33,10 @@ logging:
   config:
     classpath: log4j2-local.xml
   level:
-    org.hibernate.type: trace # 콘솔창에 조건에 바인딩되는 값 및 조회 결과 출력
-    com.cafein: debug # todo 패키지 수정
+    org.hibernate.type: debug
+    com.myblog: debug
+
+token:
+  secret: and0LXRva2VuLXNlY3JldA==       #임의의 문자열
+  access-token-expiration-time: 900000    #15분
+  refresh-token-expiration-time: 1209600000   #2주
