@@ -16,7 +16,6 @@ import com.myblog.backend.domain.member.constant.MemberType;
 import com.myblog.backend.domain.member.constant.Role;
 import com.myblog.backend.domain.member.entity.Member;
 import com.myblog.backend.domain.member.repository.MemberRepository;
-import com.myblog.backend.global.error.exception.BusinessException;
 import com.myblog.backend.global.error.exception.MemberException;
 
 import lombok.RequiredArgsConstructor;
@@ -63,25 +62,25 @@ public class MemberService {
 
 	@Transactional(propagation = REQUIRES_NEW)
 	public void updatePasswordErrorCount(Long memberId) {
-		Member member = memberRepository.findById(memberId).orElseThrow(() -> new BusinessException(MEMBER_NOT_FOUND));
+		Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberException(MEMBER_NOT_FOUND));
 		member.updatePasswordErrorCount(member.getPasswordErrorCount());
 	}
 
 	@Transactional(propagation = REQUIRES_NEW)
 	public void updateAccountStatus(Long memberId, AccountStatus newStatus) {
-		Member member = memberRepository.findById(memberId).orElseThrow(() -> new BusinessException(MEMBER_NOT_FOUND));
+		Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberException(MEMBER_NOT_FOUND));
 		member.updateAccountStatus(newStatus);
 	}
 
 	@Transactional(propagation = REQUIRES_NEW)
 	public void updateAccessToken(Long memberId, String accessToken) {
-		Member member = memberRepository.findById(memberId).orElseThrow(() -> new BusinessException(MEMBER_NOT_FOUND));
+		Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberException(MEMBER_NOT_FOUND));
 		member.updateAccessToken(accessToken);
 	}
 
 	@Transactional(propagation = REQUIRES_NEW)
 	public void updateRefreshToken(Long memberId, String refreshToken) {
-		Member member = memberRepository.findById(memberId).orElseThrow(() -> new BusinessException(MEMBER_NOT_FOUND));
+		Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberException(MEMBER_NOT_FOUND));
 		member.updateRefreshToken(refreshToken);
 	}
 }

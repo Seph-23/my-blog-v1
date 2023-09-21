@@ -1,5 +1,7 @@
 package com.myblog.backend.api.login.service;
 
+import static com.myblog.backend.global.error.ErrorCode.*;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,8 +11,7 @@ import com.myblog.backend.api.login.dto.LoginResponseDto;
 import com.myblog.backend.domain.member.constant.AccountStatus;
 import com.myblog.backend.domain.member.entity.Member;
 import com.myblog.backend.domain.member.service.MemberService;
-import com.myblog.backend.global.error.ErrorCode;
-import com.myblog.backend.global.error.exception.BusinessException;
+import com.myblog.backend.global.error.exception.AuthenticationException;
 import com.myblog.backend.global.jwt.dto.JwtTokenDto;
 import com.myblog.backend.global.jwt.service.TokenManager;
 
@@ -38,14 +39,14 @@ public class LoginService {
 
 	private void checkAccountStatus(Member member) {
 		if (member.getAccountStatus() == AccountStatus.BLOCKED) {
-			throw new BusinessException(ErrorCode.ACCOUNT_BLOCKED);
+			throw new AuthenticationException(ACCOUNT_BLOCKED);
 		}
 	}
 
 	private void checkPasswordErrorCount(Member member) {
 		if (member.getPasswordErrorCount() > 4) {
 			memberService.updateAccountStatus(member.getMemberId(), AccountStatus.BLOCKED);
-			throw new BusinessException(ErrorCode.PASSWORD_ERROR_COUNT_EXCEEDED);
+			throw new AuthenticationException(PASSWORD_ERROR_COUNT_EXCEEDED);
 		}
 	}
 
@@ -53,7 +54,7 @@ public class LoginService {
 		String requestedPW = loginRequestDto.getPassword() + member.getSalt();
 		if (!passwordEncoder.matches(requestedPW, member.getPassword())) {
 			memberService.updatePasswordErrorCount(member.getMemberId());
-			throw new BusinessException(ErrorCode.INVALID_PASSWORD);
+			throw new AuthenticationException(INVALID_PASSWORD);
 		}
 	}
 }
