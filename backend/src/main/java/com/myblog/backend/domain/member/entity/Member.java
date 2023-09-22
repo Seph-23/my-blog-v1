@@ -13,7 +13,6 @@ import javax.persistence.Id;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import com.myblog.backend.domain.common.BaseTimeEntity;
 import com.myblog.backend.domain.member.constant.AccountStatus;
@@ -34,7 +33,8 @@ import lombok.extern.slf4j.Slf4j;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseTimeEntity {
 
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long memberId;
 
 	@Column(length = 50, nullable = false)
@@ -66,8 +66,10 @@ public class Member extends BaseTimeEntity {
 	private AccountStatus accountStatus;
 
 	@Builder
-	public Member(Long memberId, String email, String password, String salt, Integer passwordErrorCount, String nickname, String accessToken,
-		String refreshToken, LocalDateTime tokenExpirationTime, Role role, MemberType memberType, AccountStatus accountStatus) {
+	public Member(Long memberId, String email, String password, String salt, Integer passwordErrorCount,
+		String nickname, String accessToken,
+		String refreshToken, LocalDateTime tokenExpirationTime, Role role, MemberType memberType,
+		AccountStatus accountStatus) {
 		this.memberId = memberId;
 		this.email = email;
 		this.password = password;

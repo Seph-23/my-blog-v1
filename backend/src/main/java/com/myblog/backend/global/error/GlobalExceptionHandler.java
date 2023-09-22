@@ -41,7 +41,8 @@ public class GlobalExceptionHandler {
 	 * 주로 @RequestParam enum으로 binding 못했을 경우 발생
 	 */
 	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
-	protected ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
+	protected ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatchException(
+		MethodArgumentTypeMismatchException e) {
 		log.error("handleMethodArgumentTypeMismatchException", e);
 		ErrorResponse errorResponse = ErrorResponse.of(HttpStatus.BAD_REQUEST.toString(), e.getMessage());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
@@ -51,7 +52,8 @@ public class GlobalExceptionHandler {
 	 * 지원하지 않은 HTTP method 호출 할 경우 발생
 	 */
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-	protected ResponseEntity<ErrorResponse> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
+	protected ResponseEntity<ErrorResponse> handleHttpRequestMethodNotSupportedException(
+		HttpRequestMethodNotSupportedException e) {
 		log.error("handleHttpRequestMethodNotSupportedException", e);
 		ErrorResponse errorResponse = ErrorResponse.of(HttpStatus.METHOD_NOT_ALLOWED.toString(), e.getMessage());
 		return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(errorResponse);
@@ -70,7 +72,7 @@ public class GlobalExceptionHandler {
 	/**
 	 * 비즈니스 로직 실행 중 오류 발생
 	 */
-	@ExceptionHandler(value = { BusinessException.class })
+	@ExceptionHandler(value = {BusinessException.class})
 	protected ResponseEntity<ErrorResponse> handleConflict(BusinessException e) {
 		log.error("BusinessException", e);
 		ErrorResponse errorResponse = ErrorResponse.of(e.getErrorCode().getErrorCode(), e.getMessage());

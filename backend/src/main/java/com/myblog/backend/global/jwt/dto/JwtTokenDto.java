@@ -7,7 +7,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 
-@Getter @Builder
+@Getter
+@Builder
 public class JwtTokenDto {
 
 	private String grantType;

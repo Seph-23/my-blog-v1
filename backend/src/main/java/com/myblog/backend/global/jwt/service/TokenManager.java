@@ -52,11 +52,11 @@ public class TokenManager {
 
 	public String createAccessToken(Long memberId, Role role, Date expirationTime) {
 		return Jwts.builder()
-			.setSubject(TokenType.ACCESS.name())		//토큰 제목
-			.setIssuedAt(new Date())					//토큰 발급 시간
-			.setExpiration(expirationTime)				//토큰 만료 시간
-			.claim("memberId", memberId)			//회원 아이디
-			.claim("role", role)					//유저 role
+			.setSubject(TokenType.ACCESS.name())        //토큰 제목
+			.setIssuedAt(new Date())                    //토큰 발급 시간
+			.setExpiration(expirationTime)                //토큰 만료 시간
+			.claim("memberId", memberId)            //회원 아이디
+			.claim("role", role)                    //유저 role
 			.signWith(SignatureAlgorithm.HS512, tokenSecret.getBytes(StandardCharsets.UTF_8))
 			.setHeaderParam("type", "JWT")
 			.compact();
@@ -64,10 +64,10 @@ public class TokenManager {
 
 	public String createRefreshToken(Long memberId, Date expirationTime) {
 		return Jwts.builder()
-			.setSubject(TokenType.REFRESH.name())		//토큰 제목
-			.setIssuedAt(new Date())					//토큰 발급 시간
-			.setExpiration(expirationTime)				//토큰 만료 시간
-			.claim("memberId", memberId)			//회원 아이디
+			.setSubject(TokenType.REFRESH.name())        //토큰 제목
+			.setIssuedAt(new Date())                    //토큰 발급 시간
+			.setExpiration(expirationTime)                //토큰 만료 시간
+			.claim("memberId", memberId)            //회원 아이디
 			.signWith(SignatureAlgorithm.HS512, tokenSecret.getBytes(StandardCharsets.UTF_8))
 			.setHeaderParam("type", "JWT")
 			.compact();
@@ -80,7 +80,7 @@ public class TokenManager {
 		} catch (ExpiredJwtException e) {
 			log.info("token 만료", e);
 			throw new AuthenticationException(ErrorCode.TOKEN_EXPIRED);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			log.info("유효하지 않은 token", e);
 			throw new AuthenticationException(ErrorCode.NOT_VALID_TOKEN);
 		}

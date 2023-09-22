@@ -5,7 +5,8 @@ import com.myblog.backend.domain.member.entity.Member;
 import lombok.Builder;
 import lombok.Getter;
 
-@Getter @Builder
+@Getter
+@Builder
 public class MemberInfoResponseDto {
 
 	private String email;

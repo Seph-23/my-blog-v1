@@ -8,7 +8,8 @@ import com.myblog.backend.global.jwt.dto.JwtTokenDto;
 import lombok.Builder;
 import lombok.Getter;
 
-@Getter @Builder
+@Getter
+@Builder
 public class LoginResponseDto {
 
 	private String grantType;
