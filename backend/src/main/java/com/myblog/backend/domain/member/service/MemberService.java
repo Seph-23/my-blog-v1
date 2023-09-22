@@ -45,6 +45,11 @@ public class MemberService {
 	}
 
 	@Transactional(readOnly = true)
+	public Member findMemberByAccessToken(String accessToken) {
+		return memberRepository.findByAccessToken(accessToken).orElseThrow(() -> new MemberException(MEMBER_NOT_FOUND));
+	}
+
+	@Transactional(readOnly = true)
 	public void validateDuplicateMember(SignUpRequestDto signUpRequestDto) {
 		memberRepository
 			.findByEmailAndMemberType(signUpRequestDto.getEmail(), MemberType.from(signUpRequestDto.getMemberType()))

@@ -11,4 +11,6 @@ import com.myblog.backend.domain.member.entity.Member;
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
 	Optional<Member> findByEmailAndMemberType(String email, MemberType memberType);
+
+	Optional<Member> findByAccessToken(String accessToken);
 }

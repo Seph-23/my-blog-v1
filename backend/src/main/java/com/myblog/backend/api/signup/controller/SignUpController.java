@@ -26,7 +26,6 @@ public class SignUpController {
 
 	@PostMapping("/signup")
 	public ResponseEntity<String> signUp(@Valid @RequestBody SignUpRequestDto signUpRequestDto) {
-		log.info("signUpRequestDto: {}", signUpRequestDto.toString());
 		memberService.validateDuplicateMember(signUpRequestDto);
 		Long memberId = memberService.createMember(signUpRequestDto);
 		return ResponseEntity.created(URI.create("/api/member/" + memberId)).build();
