@@ -1,10 +1,16 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Button, Form, Header, Input, Label, LinkContainer, Error } from "../signup/SignUpStyles";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useInput from "../../hooks/useInputs";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setAuthState, setError, clearError } from "../../redux/slice/AuthSlice";
+import MemberInfoFetcher from "../../components/MemberInfoFetcher";
+import { useSelector } from "react-redux";
 
 const LogIn = () => {
+  const dispatch = useDispatch();
+  const accessToken = useSelector((state: any) => state.auth.accessToken);
 
   const [logInError, setLogInError] = useState(false);
   const [email, onChangeEmail] = useInput('');
@@ -15,18 +21,38 @@ const LogIn = () => {
 
     axios.post(
       "http://localhost:8080/api/login",
-      { email, password },
+      { 
+        email, 
+        password, 
+        role: "USER",
+        memberType: "BLOG", 
+      },
       { withCredentials: true }
     )
     .then((response) => {
       console.log(response);
+      const { 
+        grantType, 
+        accessToken, 
+        accessTokenExpirationTime, 
+        refreshToken, 
+        refreshTokenExpirationTime 
+      } = response.data;
+      dispatch(setAuthState({ 
+        grantType, 
+        accessToken, 
+        accessTokenExpirationTime, 
+        refreshToken, 
+        refreshTokenExpirationTime
+      }));
     }).catch((error) => {
-      console.log("Error Message: " + error);
+      console.log(error);
     });
-  }, [email, password]);
+  }, [email, password, dispatch]);
 
   return (
     <div id="container">
+      {accessToken && <MemberInfoFetcher accessToken={accessToken} />}
       <Header>Sleact</Header>
       <Form onSubmit={onSubmit}>
         <Label id="email-label">

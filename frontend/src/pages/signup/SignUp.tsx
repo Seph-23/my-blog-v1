@@ -1,11 +1,12 @@
 import React, { useCallback, useState } from "react";
 import { Button, Form, Header, Input, Label, LinkContainer, Error, Success } from "./SignUpStyles";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useInput from "../../hooks/useInputs";
 import axios from "axios";
 
 const SignUp = () => {
-
+  const navigate = useNavigate();
+  
   const [email, onChangeEmail] = useInput("");
   const [nickname, onChangeNickname] = useInput("");
   const [password, setPassword] = useState("");
@@ -41,13 +42,14 @@ const SignUp = () => {
       .then((response: any) => {
         console.log(response);
         setSignUpSuccess(true);
+        navigate('/login');
       })
       .catch((error: any) => {
         console.log(error);
       });
     }
   }, [email, nickname, password, passwordCheck, mismatchError]);
-  
+
   return (
     <div id="container">
       <Header>Sleact</Header>
