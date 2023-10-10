@@ -1,7 +1,5 @@
 package com.myblog.backend.domain.member.entity;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -51,7 +49,6 @@ public class Member extends BaseTimeEntity {
 
 	private String accessToken;
 	private String refreshToken;
-	private LocalDateTime tokenExpirationTime;
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, length = 10)
@@ -68,7 +65,7 @@ public class Member extends BaseTimeEntity {
 	@Builder
 	public Member(Long memberId, String email, String password, String salt, Integer passwordErrorCount,
 		String nickname, String accessToken,
-		String refreshToken, LocalDateTime tokenExpirationTime, Role role, MemberType memberType,
+		String refreshToken, Role role, MemberType memberType,
 		AccountStatus accountStatus) {
 		this.memberId = memberId;
 		this.email = email;
@@ -78,7 +75,6 @@ public class Member extends BaseTimeEntity {
 		this.nickname = nickname;
 		this.accessToken = accessToken;
 		this.refreshToken = refreshToken;
-		this.tokenExpirationTime = tokenExpirationTime;
 		this.role = role;
 		this.memberType = memberType;
 		this.accountStatus = accountStatus;

@@ -38,13 +38,13 @@ public class LoginService {
 	}
 
 	private void checkAccountStatus(Member member) {
-		if (member.getAccountStatus() == AccountStatus.BLOCKED) {
+		if (AccountStatus.BLOCKED == member.getAccountStatus()) {
 			throw new AuthenticationException(ACCOUNT_BLOCKED);
 		}
 	}
 
 	private void checkPasswordErrorCount(Member member) {
-		if (member.getPasswordErrorCount() > 4) {
+		if (member.getPasswordErrorCount() > 4) {        //비밀번호 5회 오류시 계정 잠금
 			memberService.updateAccountStatus(member.getMemberId(), AccountStatus.BLOCKED);
 			throw new AuthenticationException(PASSWORD_ERROR_COUNT_EXCEEDED);
 		}
