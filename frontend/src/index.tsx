@@ -10,6 +10,7 @@ import SignUp from './pages/signup/SignUp';
 import { Provider } from 'react-redux';
 import store from "./redux/Store";
 import { useSelector } from 'react-redux';
+import Home from './pages/home/Home';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -22,6 +23,7 @@ root.render(
         <Route path="/" element={<LogIn />}></Route>
         <Route path="/login" element={<LogIn />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>
+        <Route path="/home" element={<Home />}></Route>
       </Routes>
     </BrowserRouter>
   </Provider>

@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 
 const LogIn = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const accessToken = useSelector((state: any) => state.auth.accessToken);
 
   const [logInError, setLogInError] = useState(false);
@@ -45,6 +46,7 @@ const LogIn = () => {
         refreshToken, 
         refreshTokenExpirationTime
       }));
+      navigate("/home");
     }).catch((error) => {
       console.log(error);
     });
