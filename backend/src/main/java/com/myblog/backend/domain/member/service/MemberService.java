@@ -5,6 +5,8 @@ import static org.springframework.transaction.annotation.Propagation.*;
 
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +34,7 @@ public class MemberService {
 
 	public Long createMember(SignUpRequestDto signUpRequestDto) {
 		String salt = UUID.randomUUID().toString();
+		validateDuplicateMember(signUpRequestDto);
 		Member member = Member.builder()
 			.email(signUpRequestDto.getEmail())
 			.password(passwordEncoder.encode(signUpRequestDto.getPassword() + salt))
@@ -45,7 +48,8 @@ public class MemberService {
 	}
 
 	@Transactional(readOnly = true)
-	public Member findMemberByAccessToken(String accessToken) {
+	public Member findMemberByAccessToken(HttpServletRequest httpServletRequest) {
+		String accessToken = httpServletRequest.getHeader("Authorization").split(" ")[1];
 		return memberRepository.findByAccessToken(accessToken).orElseThrow(() -> new MemberException(MEMBER_NOT_FOUND));
 	}
 
