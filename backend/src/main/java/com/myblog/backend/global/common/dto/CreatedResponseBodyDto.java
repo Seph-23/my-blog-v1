@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class CreatedResponseDto {
+public class CreatedResponseBodyDto {
 
 	private String location;
 }
